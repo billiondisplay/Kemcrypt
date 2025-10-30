@@ -1,7 +1,7 @@
 # Netlify Configuration for Kemcrypt Password Generator
 
 [build]
-  # No build command needed for static site
+  command = "npm install && npm run build"
   publish = "."
   
 [build.environment]
