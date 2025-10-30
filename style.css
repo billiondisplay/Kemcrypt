@@ -316,15 +316,34 @@ body {
         padding: var(--spacing-md);
         width: calc(100% - var(--spacing-md) * 2);
         margin: var(--spacing-sm) auto;
-        border-radius: var(--radius-md);
     }
+
+    /* Form controls */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* Password display */
+    .password-display {
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 481px) {
+    .container {
+        padding: 2rem;
     }
     
-/* Hover/focus effects for card */
-.card:hover,
-.card:focus-within {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    .card {
+        padding: 2rem;
+    }
 }
 
 /* Reduced motion preference */
@@ -336,13 +355,17 @@ body {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    .card {
-        transition: none;
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
     
-    .card:hover,
-    .card:focus-within {
-        transform: none;
+    .card {
+        transition: none;
     }
 }
 
@@ -350,21 +373,15 @@ body {
 @media (prefers-color-scheme: dark) {
     .card {
         background: var(--bg-secondary);
-    }
-    
-    .card:hover,
-    .card:focus-within {
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 }
 
-/* Responsive padding */
-@media (max-width: 480px) {
-    .card {
-        --card-padding: 1.5rem;
-        --card-radius: 1rem;
-        margin: 0.5rem;
-    }
+/* Hover/focus effects for card */
+.card:hover,
+.card:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
 /* ==========================================
@@ -374,12 +391,12 @@ body {
 .password-display {
     position: relative;
     margin-bottom: 1.5rem;
+    min-height: 4.5rem; /* Ensure minimum height for empty state */
 }
 
 .password-output {
     width: 100%;
-    padding: 1.25rem 3.5rem 1.25rem 1.25rem;
-    font-size: 1.125rem;
+    padding: 0.75rem 3.5rem 0.75rem 1rem;
     font-family: 'Courier New', monospace;
     font-weight: 600;
     background: var(--bg-primary);
@@ -388,7 +405,23 @@ body {
     color: var(--text-primary);
     transition: all var(--transition-speed);
     letter-spacing: 0.5px;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    min-height: 3.5rem;
+    line-height: 1.4;
+    font-size: 1rem; /* Base size */
+    overflow-y: auto;
+    max-height: 8rem; /* Limit height and add scroll if needed */
+    text-align: left;
 }
+
+/* Adjust font size based on password length */
+.password-output[data-length='16'] { font-size: 1rem; }
+.password-output[data-length='24'] { font-size: 0.9rem; }
+.password-output[data-length='32'] { font-size: 0.8rem; }
+.password-output[data-length='48'] { font-size: 0.7rem; }
+.password-output[data-length='64'] { font-size: 0.6rem; }
 
 .password-output:focus {
     outline: none;
@@ -409,6 +442,7 @@ body {
     transform: translateY(-50%);
     width: 2.5rem;
     height: 2.5rem;
+    min-height: 2.5rem; /* Ensure minimum size for touch targets */
     border: none;
     background: var(--accent-primary);
     color: white;
@@ -418,6 +452,21 @@ body {
     align-items: center;
     justify-content: center;
     transition: all var(--transition-speed);
+    z-index: 2; /* Ensure button stays above the text */
+}
+
+/* Adjust copy button for wrapped text */
+@media (max-width: 480px) {
+    .password-output {
+        padding-right: 3.5rem; /* Ensure space for the copy button */
+    }
+    
+    .copy-btn {
+        top: auto;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        transform: none;
+    }
 }
 
 .copy-btn:hover {

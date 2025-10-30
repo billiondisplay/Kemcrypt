@@ -216,6 +216,8 @@ function generatePassword() {
     
     // Update UI
     passwordOutput.value = password;
+    // Add data attribute for responsive font sizing
+    passwordOutput.setAttribute('data-length', length);
     updateStrengthMeter(password, options);
     saveSettings();
     
