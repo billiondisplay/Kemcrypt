@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="Kemcrypt - A secure and accessible password generator for creating strong, unique passwords with advanced options"
+    />
+    <meta
+      name="keywords"
+      content="password generator, secure password, random password, strong password, password creator, password manager, online security"
+    />
+    <meta name="author" content="Kemmy" />
+    <meta name="robots" content="index, follow" />
+    <title>Kemcrypt - Secure Password Generator</title>
+
+    <!-- Favicon - Dynamic based on theme -->
+    <link rel="icon" id="favicon" type="image/svg+xml" href="light.svg" />
+    <link rel="alternate icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png" />
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#00BFA6" />
+    <meta name="msapplication-TileColor" content="#00BFA6" />
+    <meta name="theme-color" content="#00BFA6" />
+
+    <!-- PWA Manifest (removed crossorigin attribute for local testing) -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Theme and Color Settings -->
+    <meta
+      name="theme-color"
+      content="#09253F"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#00B8D9"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="color-scheme" content="light dark" />
+    
+    <!-- PWA Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Kemcrypt" />
+    <meta name="application-name" content="Kemcrypt" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- Preload theme icons (moved to JavaScript for better control) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kemcrypt.netlify.app/" />
+    <meta property="og:title" content="Kemcrypt - Password Generator" />
+    <meta
+      property="og:description"
+      content="Generate strong, secure passwords instantly with customizable options"
+    />
+    <meta property="og:image" content="/icons/icon-512x512.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://kemcrypt.netlify.app/" />
+    <meta property="twitter:title" content="Kemcrypt - Password Generator" />
+    <meta
+      property="twitter:description"
+      content="Generate strong, secure passwords instantly with customizable options"
+    />
+    <meta property="twitter:image" content="/icons/icon-512x512.png" />
+
+    <!-- Google Fonts with font-display: swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" 
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'; this.onload=null;"
+    />
+    <noscript>
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" 
+        rel="stylesheet"
+      />
+    </noscript>
+    <style>
+      /* Fallback font stack */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
+    </style>
+
+    <!-- Stylesheet with preload -->
+    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="style.css" /></noscript>
+    
+    <!-- Critical CSS (inlined for better performance) -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      :root {
+        --bg-primary: #f5f5f5;
+        --bg-secondary: #ffffff;
+        --text-primary: #1a1a1a;
+      }
+      
+      [data-theme="dark"] {
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --text-primary: #e0e0e0;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition: background 0.3s, color 0.3s;
+      }
+      
+      .container {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      
+      /* Hide content until JS loads */
+      .js .no-js-hidden { display: none; }
+    </style>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="script" href="script.js" fetchpriority="high" />
+    <link rel="preload" as="style" href="style.css" />
+    
+    <!-- Add a loading class to body -->
+    <script>
+      // Add 'js' class to body when JavaScript is enabled
+      document.documentElement.classList.add('js');
+      
+      // Preload theme-appropriate icon
+      document.addEventListener('DOMContentLoaded', () => {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const icon = document.createElement('link');
+        icon.rel = 'preload';
+        icon.as = 'image';
+        icon.href = isDark ? 'Light.svg' : 'Dark.svg';
+        icon.type = 'image/svg+xml';
+        document.head.appendChild(icon);
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Theme Toggle Button -->
+    <button
+      class="theme-toggle"
+      id="themeToggle"
+      aria-label="Toggle dark/light mode"
+    >
+      <svg
+        class="sun-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg
+        class="moon-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <!-- Main Container -->
+    <main class="container">
+      <!-- Header Section -->
+      <header class="header">
+        <div class="logo">
+          <div class="logo-container">
+            <!-- Light theme logo -->
+            <img 
+              src="light.svg" 
+              alt="Kemcrypt Logo" 
+              class="logo-svg light-logo"
+              width="32"
+              height="32"
+              data-theme="light"
+            >
+            <!-- Dark theme logo -->
+            <img 
+              src="dark.svg" 
+              alt="Kemcrypt Logo" 
+              class="logo-svg dark-logo"
+              width="32"
+              height="32"
+              data-theme="dark"
+              style="display: none;"
+            >
+          </div>
+        </div>
+        <h1>Kemcrypt</h1>
+        <p class="subtitle">Generate strong, secure passwords instantly</p>
+      </header>
+
+      <!-- Password Generator Card -->
+      <section class="card">
+        <!-- Generated Password Display -->
+        <div class="password-display">
+          <input
+            type="text"
+            id="passwordOutput"
+            class="password-output"
+            readonly
+            placeholder="Your password will appear here"
+            aria-label="Generated password"
+          />
+          <button
+            id="copyBtn"
+            class="copy-btn"
+            aria-label="Copy password to clipboard"
+            title="Copy to clipboard"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Password Strength Meter -->
+        <div class="strength-indicator">
+          <p class="strength-text" id="strengthText">Very Weak</p>
+          <div class="strength-meter">
+            <div class="strength-meter-segment"></div>
+            <div class="strength-meter-segment"></div>
+            <div class="strength-meter-segment"></div>
+            <div class="strength-meter-segment"></div>
+            <div class="strength-meter-segment"></div>
+          </div>
+        </div>
+
+        <!-- Password Length Slider -->
+        <div class="control-group">
+          <label for="lengthSlider" class="control-label">
+            Password Length: <span id="lengthValue">16</span>
+          </label>
+          <input
+            type="range"
+            id="lengthSlider"
+            class="slider"
+            min="6"
+            max="32"
+            value="16"
+            aria-label="Password length slider"
+          />
+        </div>
+
+        <!-- Character Options -->
+        <div class="options-group">
+          <h3 class="options-title">Include Characters</h3>
+
+          <div class="option-item">
+            <input
+              type="checkbox"
+              id="includeUppercase"
+              class="checkbox"
+              checked
+              aria-label="Include uppercase letters"
+            />
+            <label for="includeUppercase" class="checkbox-label">
+              <span class="checkbox-custom"></span>
+              Uppercase Letters (A-Z)
+            </label>
+          </div>
+
+          <div class="option-item">
+            <input
+              type="checkbox"
+              id="includeLowercase"
+              class="checkbox"
+              checked
+              aria-label="Include lowercase letters"
+            />
+            <label for="includeLowercase" class="checkbox-label">
+              <span class="checkbox-custom"></span>
+              Lowercase Letters (a-z)
+            </label>
+          </div>
+
+          <div class="option-item">
+            <input
+              type="checkbox"
+              id="includeNumbers"
+              class="checkbox"
+              checked
+              aria-label="Include numbers"
+            />
+            <label for="includeNumbers" class="checkbox-label">
+              <span class="checkbox-custom"></span>
+              Numbers (0-9)
+            </label>
+          </div>
+
+          <div class="option-item">
+            <input
+              type="checkbox"
+              id="includeSymbols"
+              class="checkbox"
+              checked
+              aria-label="Include special characters"
+            />
+            <label for="includeSymbols" class="checkbox-label">
+              <span class="checkbox-custom"></span>
+              Special Characters (!@#$%^&*)
+            </label>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button
+          id="generateBtn"
+          class="generate-btn"
+          aria-label="Generate new password"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"
+            ></path>
+          </svg>
+          Generate Password
+        </button>
+      </section>
+
+      <!-- Toast Notification -->
+      <div id="toast" class="toast" role="alert" aria-live="polite">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMessage">Password copied to clipboard!</span>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built with ❤️ by <strong>Kemmy</strong></p>
+      <p class="footer-small">© 2024 Kemcrypt. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js" defer></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      // Register service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful');
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New update available
+                    showUpdateNotification();
+                  }
+                });
+              });
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+
+      // Handle beforeinstallprompt event
+      let deferredPrompt;
+      const installButton = document.getElementById('installButton');
+      
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later
+        deferredPrompt = e;
+        // Show the install button if it exists
+        if (installButton) {
+          installButton.style.display = 'block';
+          installButton.addEventListener('click', () => {
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then(choiceResult => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+              } else {
+                console.log('User dismissed the install prompt');
+              }
+              deferredPrompt = null;
+            });
+          });
+        }
+      });
+
+      // Show update notification
+      function showUpdateNotification() {
+        if (window.confirm('A new version of Kemcrypt is available. Reload to update?')) {
+          window.location.reload();
+        }
+      }
+
+      // Check for updates on focus
+      window.addEventListener('focus', () => {
+        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ type: 'CHECK_UPDATE' });
+        }
+      });
+    </script>
+  </body>
+</html>

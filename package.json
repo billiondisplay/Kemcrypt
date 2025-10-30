@@ -1,0 +1,51 @@
+{
+  "name": "kemcrypt-password-generator",
+  "version": "1.0.0",
+  "description": "A fully functional, responsive password generator built with HTML, CSS, and JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "start": "python dev-server.py",
+    "dev": "python dev-server.py",
+    "serve": "npx http-server -p 8000 -o",
+    "simple": "python -m http.server 8000",
+    "deploy": "netlify deploy --prod",
+    "deploy:preview": "netlify deploy",
+    "lint:css": "npx stylelint style.css",
+    "lint:js": "npx eslint script.js",
+    "format": "npx prettier --write \"**/*.{html,css,js,json,md}\"",
+    "lighthouse": "npx lighthouse http://localhost:8000 --view",
+    "icons": "npx pwa-asset-generator Light.svg ./icons --icon-only --background \"#00BFA6\"",
+    "validate": "npx html-validate index.html"
+  },
+  "keywords": [
+    "password-generator",
+    "security",
+    "pwa",
+    "responsive",
+    "javascript",
+    "html5",
+    "css3",
+    "netlify"
+  ],
+  "author": "Kemmy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/password-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/password-generator/issues"
+  },
+  "homepage": "https://kemcrypt.netlify.app",
+  "devDependencies": {},
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ]
+}

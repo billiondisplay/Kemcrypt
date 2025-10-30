@@ -1,0 +1,58 @@
+{
+  "name": "Kemcrypt - Password Generator",
+  "short_name": "Kemcrypt",
+  "description": "Generate strong, secure passwords instantly with customizable options",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#09253F",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["security", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "platform": "web",
+      "label": "Kemcrypt on Desktop"
+    },
+    {
+      "src": "screenshots/mobile.png",
+      "sizes": "414x896",
+      "type": "image/png",
+      "platform": "web",
+      "label": "Kemcrypt on Mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Generate Password",
+      "short_name": "Generate",
+      "description": "Quickly generate a new password",
+      "url": "/?generate=new",
+      "icons": [{"src": "icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]
+    },
+    {
+      "name": "Check Strength",
+      "short_name": "Strength",
+      "description": "Check password strength",
+      "url": "/?strength"
+    }
+  ]
+}
