@@ -4,7 +4,7 @@
   "description": "A fully functional, responsive password generator built with HTML, CSS, and JavaScript",
   "main": "index.html",
   "scripts": {
-    "build": "mkdir -p dist && cp -r *.html *.css *.js manifest.json icons/ dist/",
+    "build": "mkdir -p dist && cp -r *.html *.css *.js manifest.json dist/ && [ -d icons ] && cp -r icons/ dist/ || true",
     "start": "python dev-server.py",
     "dev": "python dev-server.py",
     "serve": "npx http-server -p 8000 -o",
